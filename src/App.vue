@@ -1,5 +1,13 @@
-<script setup>
+<!-- <script setup> -->
+<script>
 import HelloWorld from './components/HelloWorld.vue'
+import MyOwnHelloWorld from "./components/MyOwnHelloWorld.vue";
+
+export default {
+  components: {
+    MyOwnHelloWorld
+  }
+}
 </script>
 
 <template>
@@ -11,7 +19,8 @@ import HelloWorld from './components/HelloWorld.vue'
       <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
     </a>
   </div>
-  <HelloWorld msg="Vite + Vue" />
+  <MyOwnHelloWorld></MyOwnHelloWorld>
+<!---  <HelloWorld msg="Vite + Vue lol" /> -->
 </template>
 
 <style scoped>
