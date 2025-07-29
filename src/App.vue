@@ -1,39 +1,15 @@
-<!-- <script setup> -->
-<script>
-import HelloWorld from './components/HelloWorld.vue'
-import MyOwnHelloWorld from "./components/MyOwnHelloWorld.vue";
-
-export default {
-  components: {
-    MyOwnHelloWorld
-  }
-}
-</script>
-
 <template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <MyOwnHelloWorld></MyOwnHelloWorld>
-<!---  <HelloWorld msg="Vite + Vue lol" /> -->
+  <h1>Hello from App.vue</h1>
+  <p><strong>Current route path:</strong> {{ $route.fullPath }}</p>
+  <nav>
+    <RouterLink to="/">Go to Home</RouterLink>
+    <RouterLink to="/views/Home">Go to About</RouterLink>
+    <RouterLink to="/HelloWorld">HelloWorld</RouterLink>
+  </nav>
+  <br>
+  <par>The follow is shown depending on the URL</par>
+  <hr>
+  <main>
+    <RouterView />
+  </main>
 </template>
-
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
