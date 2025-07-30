@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import HelloWorld from '../views/HelloWorld.vue'
+import Fetch from "../views/Fetch.vue";
 
 const routes = [
   {
@@ -12,6 +13,11 @@ const routes = [
     path: '/HelloWorld',
     name: 'HelloWorld',
     component: HelloWorld
+  },
+  {
+    path: '/Fetch',
+    name: 'Fetch',
+    component: Fetch
   },
   {
     path: '/:pathMatch(.*)*',
