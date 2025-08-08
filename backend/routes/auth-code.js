@@ -9,14 +9,13 @@ const provider = providers.spotify;
 // exchange authorization code for access token
 router.get('/', (req, res) => {
     const state = state_utils.generateRandomString(16);
-    var scope = 'user-read-private user-read-email';
     res.redirect(
         provider.auth_url + '?' +
         querystring.stringify({
             response_type: 'code',
             client_id: provider.client_id,
             redirect_uri: provider.redirect_uri,
-            scope: scope,
+            scope: provider.scope,
             state: state
         })
     );
