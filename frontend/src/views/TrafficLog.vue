@@ -10,12 +10,10 @@
       <div class="arrow">➡️</div>
       <div class="log-details">
         <div class="log-line">
-          <strong>{{ log.source }}</strong> → <strong>{{ log.target }}</strong>
+          <strong>{{ log.source }}</strong> → <strong>{{ log.target }}</strong>&nbsp;
+          <small>{{ log.timestamp }}</small>
         </div>
-        <small>{{ log.timestamp }}</small>
-        <pre :class="getSourceClass(log.source)">
-          {{ formatData(log.data) }}
-        </pre>
+        <pre :class="getSourceClass(log.source)">{{ formatData(log.data) }}</pre>
       </div>
     </div>
   </div>
