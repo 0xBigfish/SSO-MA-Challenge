@@ -24,6 +24,9 @@ router.get('/', (req, res) => {
 
 // get authorization code
 router.get('/callback', async (req, res, next) => {
+
+    // TODO: add state check, the one from the spotify example repo is insecure in my opinion
+    // https://github.com/spotify/web-api-examples/blob/master/authorization/authorization_code/app.js
     try {
         const { code, state } = req.query;
         const tokenResponse = await axios.post(
