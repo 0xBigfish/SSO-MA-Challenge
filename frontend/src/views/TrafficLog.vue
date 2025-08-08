@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>OAuth2 Traffic Log</h1>
+    <button @click="homepage">Back to Homepage</button>
     <div
         v-for="(log, i) in logs"
         :key="i"
@@ -22,8 +23,13 @@
 
 <script setup>
   import {ref, onMounted} from 'vue';
+  import router from "../router";
 
   const logs = ref([]);
+
+  function homepage() {
+    router.push({path:'/'})
+  }
 
   function formatData(data) {
     return typeof data === 'object'
