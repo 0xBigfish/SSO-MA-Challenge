@@ -38,7 +38,7 @@ router.get('/callback', async (req, res, next) => {
             }),
             { headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
-                    'Authorization': 'Basic ' + (new Buffer.from(client_id + ':' + client_secret).toString('base64'))
+                    'Authorization': 'Basic ' + (new Buffer.from(provider.client_id + ':' + provider.client_secret).toString('base64'))
                 }}
         );
         res.json(tokenResponse.data);
