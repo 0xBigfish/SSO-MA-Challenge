@@ -10,17 +10,6 @@ const provider = providers.spotify;
 // exchange authorization code for access token
 router.get('/', (req, res) => {
 
-    // Log incoming request from frontend
-    logger.logTraffic({
-        source: 'Frontend',
-        target: 'Backend',
-        direction: 'receive',
-        data: {
-            query: req.query,
-            body: req.body
-        }
-    });
-
     const state = state_utils.generateRandomString(16);
     let authUrl = provider.auth_url + '?' +
         querystring.stringify({
@@ -31,13 +20,6 @@ router.get('/', (req, res) => {
             state: state
         });
 
-    // Log outgoing request to IdP
-    logger.logTraffic({
-        source: 'Backend',
-        target: 'IdP',
-        direction: 'send',
-        data: {url: authUrl}
-    });
 
     res.redirect(authUrl);
 });
@@ -50,17 +32,6 @@ router.get('/callback', async (req, res, next) => {
     // https://github.com/spotify/web-api-examples/blob/master/authorization/authorization_code/app.js
     try {
         const {code, state} = req.query;
-
-        // Log incoming request from IdP
-        logger.logTraffic({
-            source: 'IdP',
-            target: 'Backend',
-            direction: 'receive',
-            data: {
-                query: req.query,
-                body: req.body
-            }
-        });
 
         const tokenResponse = await axios.post(
             provider.token_url,
