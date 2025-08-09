@@ -28,7 +28,7 @@ axios.interceptors.response.use(response => {
         direction: 'receive',
         data: {
             status: response.status,
-            url: url.href,
+            originally_requested: url.href,
             headers: response.headers,
             body: response.data,
             loggedBy: 'Centralized logging (axios incoming responses)'
