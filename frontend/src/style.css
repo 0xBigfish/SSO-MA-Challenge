@@ -101,3 +101,14 @@ button:focus-visible {
     display: block;
     margin-top: 0.3rem;
 }
+code {
+    background-color: #303030;       /* darker gray, fits dark bg */
+    color: #e01e5a;                 /* GitHub pinkish-red */
+    font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+    font-size: 85%;
+    padding: 0.0em 0.2em;
+    border-radius: 6px;
+    white-space: nowrap;
+    user-select: text;
+    border: 1px solid #444444;       /* subtle dark border */
+}
