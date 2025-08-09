@@ -12,6 +12,7 @@ require('./utils/axiosLogger');
 const app = express();
 app.use(cors({origin: 'http://localhost:5173'}));
 app.use(express.json());
+app.options('/{*any}', cors());  // enable preflight for all routes
 
 // console logging
 app.use((req, res, next) => {
