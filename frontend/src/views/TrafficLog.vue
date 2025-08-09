@@ -1,7 +1,10 @@
 <template>
   <div>
     <h1>OAuth2 Traffic Log</h1>
-    <button @click="homepage">Back to Homepage</button>
+    <div class="button-wrapper">
+      <button @click="homepage">Back to Homepage</button>
+      <button @click="clearLogs">Clear Logs</button>
+    </div>
     <div
         v-for="(log, i) in logs"
         :key="i"
@@ -26,7 +29,16 @@
   const logs = ref([]);
 
   function homepage() {
-    router.push({path:'/'})
+    router.push({path: '/'})
+  }
+
+  async function clearLogs() {
+    await fetch('http://localhost:3000/logs', {
+      method: 'DELETE',
+    });
+    // reload page
+    const res = await fetch('http://localhost:3000/logs');
+    logs.value = await res.json();
   }
 
   function formatData(data) {

@@ -77,3 +77,27 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.button-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    width: 100%; /* allow buttons to be centered horizontally */
+}
+
+.button-wrapper button {
+    flex-shrink: 0; /* prevent buttons from shrinking */
+    padding: 0.6rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    white-space: normal; /* allow wrapping inside buttons */
+    max-width: 45%; /* prevent buttons from getting too wide */
+    text-align: center;
+}
+
+.button-wrapper button small {
+    font-size: 0.75rem;
+    display: block;
+    margin-top: 0.3rem;
+}
