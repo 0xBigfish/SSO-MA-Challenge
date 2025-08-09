@@ -37,10 +37,9 @@
 
   function getSourceClass(source) {
     const src = source?.trim().toLowerCase();
-    if (src === 'idp') return 'idp';
     if (src === 'frontend') return 'frontend';
     if (src === 'backend') return 'backend';
-    return 'unknown';
+    return 'idp';
   }
 
   onMounted(async () => {
