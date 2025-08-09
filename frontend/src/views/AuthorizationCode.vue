@@ -6,7 +6,9 @@
 </template>
 
 <script setup>
+import { loggedFetch } from '../utils/logger';
 function startFlow() {
-  document.location = 'http://localhost:3000/auth-code';
+  //   document.location = 'http://localhost:3000/auth-code';
+  loggedFetch('http://localhost:3000/auth-code');
 }
 </script>
