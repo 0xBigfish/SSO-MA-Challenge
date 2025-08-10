@@ -10,7 +10,10 @@ const unifiedLogger = require('./utils/unifiedLogger');
 require('./utils/axiosLogger');
 
 const app = express();
-app.use(cors({origin: 'http://localhost:5173'}));
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+}));
 app.use(express.json());
 app.options('/{*any}', cors());  // enable preflight for all routes
 

@@ -18,9 +18,12 @@ router.post('/', (req, res) => {
         direction: req.body.direction,
         data: {
             method: req.body.method,
+            status: req.body.status,
+            originally_requested: req.body.originally_requested,
             url: req.body.url,
             headers: req.body.headers,
-            body: req.body.body || null
+            body: req.body.body || null,
+            loggedBy: req.body.loggedBy
         }
     })
 })

@@ -3,16 +3,17 @@
     <h1>OAuth2 Authorization Code Flow</h1>
     <p>
       When running the flow in accordance with OAuth specification, the front-end starts the flow with a request to the
-      backend and receives a <code>302</code> redirect with the client_secret and other needed parameters. The front-end then
-      requests
-      authentication from the IdP. This redirected request can not be logged, since <code>fetch()</code> handles these
-      redirects internally. This way, the initial request and the response to and from the IdP can not be logged.
-      You can view the requests from the front-end in a proxy, like BurpSuite.
+      backend and receives a <code>302</code> redirect with the client_secret and other needed parameters. The
+      front-end then requests authentication from the IdP.
+      This redirected request can not be logged, since the
+      <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS">CORS policy</a> blocks this request.
+      <b>The only way to log this request from the front end is by manually disabling the same origin policy
+      and CORS policy in your browser.</b>
     </p>
     <p>
       When running the flow with better logging, the initial request to the IdP is done by the backend. This is not
-      according to the OAuth specification for the authorization code flow, but offers to log the entire flow with all
-      requests.</p>
+      in accordance to the OAuth specification for the authorization code flow, but offers to log the entire flow with
+      all requests.</p>
     <div class="button-wrapper">
       <button @click="startFrontendRedirect">
         Start Flow <br>
@@ -29,17 +30,20 @@
 </template>
 
 <script setup>
-import {loggedFetch} from '../utils/logger';
+import axiosWithLogging from '../utils/axiosWithLogging.js';
 
 function startFrontendRedirect() {
-  document.location = 'http://localhost:3000/auth-code';
+  axiosWithLogging.get('http://localhost:3000/auth-code')
+      // when CORS blocks the request abort logging and just redirect
+      .catch(() => {document.location = 'http://localhost:3000/auth-code'});
 }
 
 async function startBackendRedirect() {
-  const res = await loggedFetch('http://localhost:3000/auth-code/backend-redirect', {
+  const res = await fetch('http://localhost:3000/auth-code/redirect-logging', {
     redirect: 'manual'
   });
 
+  console.log(res)
   const location = res.headers.get('Location');
   if (location) {
     window.location.href = location;
