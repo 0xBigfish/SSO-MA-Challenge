@@ -8,7 +8,7 @@
       This redirected request can not be logged, since the
       <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS">CORS policy</a> blocks this request.
       <b>The only way to log this request from the front end is by manually disabling the same origin policy
-      and CORS policy in your browser.</b>
+        and CORS policy in your browser.</b>
     </p>
     <p>
       When running the flow with better logging, the initial request to the IdP is done by the backend. This is not
@@ -33,9 +33,19 @@
 import axiosWithLogging from '../utils/axiosWithLogging.js';
 
 function startFrontendRedirect() {
-  axiosWithLogging.get('http://localhost:3000/auth-code')
+  axiosWithLogging.get('http://localhost:3000/auth-code', {
+        headers: {
+          'X-Info': '####### The redirect to this request will most likely be blocked by CORS. If so, a second request will be send. #######'
+        }
+      }
+  )
       // when CORS blocks the request abort logging and just redirect
-      .catch(() => {document.location = 'http://localhost:3000/auth-code'});
+      .catch(() => {
+        axiosWithLogging.get('http://localhost:3000/PREVIOUS-REQUEST-BLOCKED-BY-CORS', {})
+            .catch(() => {
+              document.location = 'http://localhost:3000/auth-code'
+            })
+      });
 }
 
 async function startBackendRedirect() {
