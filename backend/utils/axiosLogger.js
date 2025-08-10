@@ -1,6 +1,11 @@
+// **************************************************************
+// |  This file makes axios log every send and received request |
+// ****************************************************+*********
+
 const axios = require('axios');
 const { logTraffic } = require('./trafficLogger');
 
+// Request interceptor
 axios.interceptors.request.use(config => {
     // url is just /endpoint, baseURL is just https://my.domain.com
     const url = new URL(config.url, config.baseURL);
@@ -20,6 +25,7 @@ axios.interceptors.request.use(config => {
     return config;
 });
 
+// Response interceptor
 axios.interceptors.response.use(response => {
     const url = new URL(response.config.url, response.config.baseURL);
     logTraffic({
