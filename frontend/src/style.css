@@ -102,13 +102,13 @@ button:focus-visible {
     margin-top: 0.3rem;
 }
 code {
-    background-color: #303030;       /* darker gray, fits dark bg */
-    color: #e01e5a;                 /* GitHub pinkish-red */
+    background-color: #ddd8d8;       /* darker gray, fits dark bg */
+    color: #0e0e0e;                 /* GitHub pinkish-red */
     font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
     font-size: 85%;
     padding: 0.0em 0.2em;
     border-radius: 6px;
     white-space: nowrap;
     user-select: text;
-    border: 1px solid #444444;       /* subtle dark border */
+    border: 1px solid #aca8a8;       /* subtle dark border */
 }
