@@ -2,30 +2,20 @@
   <div class="page-container">
     <h1>OAuth2 Authorization Code Flow</h1>
     <p>
-      When running the flow in accordance with OAuth specification, the front-end starts the flow with a request to the
-      backend and receives a <code>302</code> redirect with the client_secret and other needed parameters. The
-      front-end then requests authentication from the IdP.
-      This redirected request can not be logged, since the
+      The front-end starts the flow with a request to the
+      backend and receives a <code>302</code> redirect to the IDP with the client_secret and other needed parameters.
+      The front-end then requests authentication from the IdP.
+      This redirected request can not be logged (via JavaScript), since the
       <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS">CORS policy</a> blocks this request.
-      Instead, the request is done via <code>document.location</code> which enables the redirect to be properly done
+      Instead, the request is done via <code>document.location</code> which allows the redirect to be properly done
       since this way it's not done by JavaScript and thereby unaffected by the policies.
       <b>The only way to log this request from the front end is by manually disabling the same origin policy
         and CORS policy in your browser.</b>
     </p>
-    <p>
-      When running the flow with better logging, the initial request to the IdP is done by the backend. This is not
-      in accordance to the OAuth specification for the authorization code flow, but offers to log the entire flow with
-      all requests.</p>
     <div class="button-wrapper">
-      <button @click="startFrontendRedirect">
+      <button @click="requestUserDataViaBackend">
         Start Flow <br>
-        (according OAuth to protocol) <br>
-        <small>The redirected requests from frontend to IdP can not be logged</small>
-      </button>
-      <button @click="startBackendRedirect">
-        Start Flow <br>
-        (full logging)<br>
-        <small>The full SSO dance is logged but not 100% conform with OAuth protocol</small>
+        <small>Will log all traffic except the <code>302</code> from front-end to IdP</small>
       </button>
     </div>
   </div>
@@ -35,8 +25,9 @@
 import {BACKEND_BASE_URL} from "../config.js";
 import axiosWithLogging from '../utils/axiosWithLogging.js';
 
-function startFrontendRedirect() {
-  axiosWithLogging.get(BACKEND_BASE_URL + '/auth-code', {
+function requestUserDataViaBackend() {
+  const requestUrl = BACKEND_BASE_URL + '/auth-code';
+  axiosWithLogging.get(requestUrl, {
         headers: {
           'X-Info': '####### The redirect to this request will most likely be blocked by CORS. If so, a second request will be send. #######'
         }
@@ -46,23 +37,9 @@ function startFrontendRedirect() {
       .catch(() => {
         axiosWithLogging.get(BACKEND_BASE_URL +'/PREVIOUS-REQUEST-BLOCKED-BY-CORS', {})
             .catch(() => {
-              document.location = BACKEND_BASE_URL + '/auth-code'
+              document.location = requestUrl
             })
       });
-}
-
-async function startBackendRedirect() {
-  const res = await fetch(BACKEND_BASE_URL + '/auth-code/redirect-logging', {
-    redirect: 'manual'
-  });
-
-  console.log(res)
-  const location = res.headers.get('Location');
-  if (location) {
-    window.location.href = location;
-  } else {
-    console.error('No redirect location found in response.');
-  }
 }
 </script>
 <style>
