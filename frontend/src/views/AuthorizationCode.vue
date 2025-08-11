@@ -7,6 +7,8 @@
       front-end then requests authentication from the IdP.
       This redirected request can not be logged, since the
       <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS">CORS policy</a> blocks this request.
+      Instead, the request is done via <code>document.location</code> which enables the redirect to be properly done
+      since this way it's not done by JavaScript and thereby unaffected by the policies.
       <b>The only way to log this request from the front end is by manually disabling the same origin policy
         and CORS policy in your browser.</b>
     </p>
