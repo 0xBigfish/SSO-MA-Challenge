@@ -30,10 +30,11 @@
 </template>
 
 <script setup>
+import {BACKEND_BASE_URL} from "../config.js";
 import axiosWithLogging from '../utils/axiosWithLogging.js';
 
 function startFrontendRedirect() {
-  axiosWithLogging.get('http://localhost:3000/auth-code', {
+  axiosWithLogging.get(BACKEND_BASE_URL + '/auth-code', {
         headers: {
           'X-Info': '####### The redirect to this request will most likely be blocked by CORS. If so, a second request will be send. #######'
         }
@@ -41,15 +42,15 @@ function startFrontendRedirect() {
   )
       // when CORS blocks the request abort logging and just redirect
       .catch(() => {
-        axiosWithLogging.get('http://localhost:3000/PREVIOUS-REQUEST-BLOCKED-BY-CORS', {})
+        axiosWithLogging.get(BACKEND_BASE_URL +'/PREVIOUS-REQUEST-BLOCKED-BY-CORS', {})
             .catch(() => {
-              document.location = 'http://localhost:3000/auth-code'
+              document.location = BACKEND_BASE_URL + '/auth-code'
             })
       });
 }
 
 async function startBackendRedirect() {
-  const res = await fetch('http://localhost:3000/auth-code/redirect-logging', {
+  const res = await fetch(BACKEND_BASE_URL + '/auth-code/redirect-logging', {
     redirect: 'manual'
   });
 

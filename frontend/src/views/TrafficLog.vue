@@ -25,6 +25,7 @@
 <script setup>
   import {ref, onMounted} from 'vue';
   import router from "../router";
+  import {BACKEND_BASE_URL} from "../config.js";
 
   const logs = ref([]);
 
@@ -33,11 +34,11 @@
   }
 
   async function clearLogs() {
-    await fetch('http://localhost:3000/logs', {
+    await fetch(BACKEND_BASE_URL + '/logs', {
       method: 'DELETE',
     });
     // reload page
-    const res = await fetch('http://localhost:3000/logs');
+    const res = await fetch(BACKEND_BASE_URL + '/logs');
     logs.value = await res.json();
   }
 
@@ -55,7 +56,7 @@
   }
 
   onMounted(async () => {
-    const res = await fetch('http://localhost:3000/logs');
+    const res = await fetch(BACKEND_BASE_URL + '/logs');
     logs.value = await res.json();
   });
 </script>

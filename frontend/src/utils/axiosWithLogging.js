@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { BACKEND_BASE_URL } from '../config.js';
 
 /**
  * Transform the absolute or relative URL from config into a URL object.
@@ -16,7 +17,7 @@ function getAsURLObject(config) {
 }
 
 // the backends logging endpoint URL
-const LOGGING_ENDPOINT_URL = 'http://localhost:3000/logs';
+const LOGGING_ENDPOINT_URL = BACKEND_BASE_URL + '/logs';
 
 // create the axios instance
 const axiosWithLogging = axios.create({
@@ -29,7 +30,7 @@ const axiosWithLogging = axios.create({
 axiosWithLogging.interceptors.request.use(async (config) => {
     const requestURL = getAsURLObject(config);
 
-    if (requestURL.hostname === 'localhost') {
+    if (requestURL.hostname === new URL(BACKEND_BASE_URL).hostname) {
         // prevent duplicates, since the backend logs incoming requests itself
         return config;
     }
@@ -60,7 +61,7 @@ axiosWithLogging.interceptors.request.use(async (config) => {
 axiosWithLogging.interceptors.response.use(async (response) => {
     const responseURL = getAsURLObject(response.config);
 
-     if (responseURL.hostname === 'localhost') {
+     if (responseURL.hostname === new URL(BACKEND_BASE_URL).hostname) {
          // prevent duplicates, since the backend logs incoming requests itself
         return response;
      }
