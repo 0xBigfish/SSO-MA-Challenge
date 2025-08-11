@@ -29,8 +29,4 @@ app.use(unifiedLogger);
 // Register all routes
 app.use('/', routes);
 
-// Global error handler
-//const errorHandler = require('./middleware/errorHandler');
-//app.use(errorHandler);
-
 app.listen(3000, () => console.log('Backend running on http://localhost:3000'));
