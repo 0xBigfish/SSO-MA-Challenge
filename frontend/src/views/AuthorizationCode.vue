@@ -18,12 +18,32 @@
         <small>Will log all traffic except the <code>302</code> from front-end to IdP</small>
       </button>
     </div>
+    <SpotifyProfile :profile="profileData"/>
   </div>
 </template>
 
 <script setup>
+import {ref} from 'vue';
 import {BACKEND_BASE_URL} from "../config.js";
 import axiosWithLogging from '../utils/axiosWithLogging.js';
+import SpotifyProfile from "../components/SpotifyProfile.vue";
+
+// track the profile Data received from the backend in order to inject it into the Spotify component
+let profileData = ref(null)
+setProfileData();
+
+function setProfileData() {
+  const requestURL = BACKEND_BASE_URL + '/spotify/profile-data';
+
+  console.log("setProfileData");
+  // needs cookies, otherwise will return 401
+  axiosWithLogging.get(requestURL, {
+    withCredentials: true
+  }).then((response) => {
+    profileData.value = response.data;
+  })
+}
+
 
 function requestUserDataViaBackend() {
   const requestUrl = BACKEND_BASE_URL + '/auth-code';
@@ -35,7 +55,7 @@ function requestUserDataViaBackend() {
   )
       // when CORS blocks the request abort logging and just redirect
       .catch(() => {
-        axiosWithLogging.get(BACKEND_BASE_URL +'/PREVIOUS-REQUEST-BLOCKED-BY-CORS', {})
+        axiosWithLogging.get(BACKEND_BASE_URL + '/PREVIOUS-REQUEST-BLOCKED-BY-CORS', {})
             .catch(() => {
               document.location = requestUrl
             })
