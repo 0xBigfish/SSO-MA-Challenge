@@ -7,7 +7,6 @@ function showLogs() {
 
 <template>
   <div><button @click="showLogs">Show Logs</button></div>
-  <div><strong>Warning: Starting any flow will clear the logs</strong></div>
   <router-view/>
 </template>
 
