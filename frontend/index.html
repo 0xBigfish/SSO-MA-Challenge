@@ -9,5 +9,11 @@
   <body>
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
+    <script>
+        if (location.hostname === 'localhost') {
+            const newUrl = location.href.replace('//localhost', '//127.0.0.1');
+            location.replace(newUrl);
+        }
+    </script>
   </body>
 </html>
