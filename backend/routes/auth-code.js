@@ -41,13 +41,7 @@ router.get('/callback', async (req, res, next) => {
                 redirect_uri: provider.redirect_uri,
                 client_id: provider.client_id,
                 client_secret: provider.client_secret
-            }),
-            {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'Authorization': 'Basic ' + (new Buffer.from(provider.client_id + ':' + provider.client_secret).toString('base64'))
-                }
-            }
+            })
         );
         res.json(tokenResponse.data);
     } catch (err) {
