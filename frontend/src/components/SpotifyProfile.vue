@@ -64,7 +64,6 @@ defineProps({
 <style scoped>
 .container {
   max-width: 100%; /* don’t grow beyond parent */
-  overflow: hidden; /* hide content that still tries to push */
 }
 
 .profile-list {
