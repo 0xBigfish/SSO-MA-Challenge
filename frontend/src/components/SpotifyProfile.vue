@@ -3,33 +3,56 @@
     <!-- Spotify user profile info -->
     <div id="user-profile" v-if="profile">
       <h2>Spotify: Logged in as {{ profile.display_name }}</h2>
-      <div class="media">
-        <div class="pull-left" v-if="profile.images && profile.images.length">
-          <img class="media-object" width="150" :src="profile.images[0].url"/>
+      <div class="profile-wrapper">
+        <div v-if="profile.images && profile.images.length" class="profile-image">
+          <img :src="profile.images[0].url" alt="Profile image" />
         </div>
-        <div class="media-body">
-          <ul class="profile-list">
-            <li><span class="label">Display name:</span> {{ profile.display_name }}</li>
-            <li><span class="label">Id:</span> {{ profile.id }}</li>
-            <li><span class="label">Email:</span> {{ profile.email }}</li>
-            <li>
-              <span class="label">Spotify URI:</span>
-              <a :href="profile.external_urls.spotify">{{ profile.external_urls.spotify }}</a>
-            </li>
-            <li>
-              <span class="label">Link:</span>
-              <a :href="profile.href">{{ profile.href }}</a>
-            </li>
-            <li v-if="profile.images.length">
-              <span class="label">Profile Image:</span>
-              <a :href="profile.images[0].url">{{ profile.images[0].url }}</a>
-            </li>
-            <li><span class="label">Country:</span> {{ profile.country }}</li>
-          </ul>
-        </div>
+        <table class="profile-table">
+          <tbody>
+          <tr>
+            <th>Display name:</th>
+            <td>{{ profile.display_name }}</td>
+          </tr>
+          <tr>
+            <th>Id:</th>
+            <td>{{ profile.id }}</td>
+          </tr>
+          <tr>
+            <th>Email:</th>
+            <td>{{ profile.email }}</td>
+          </tr>
+          <tr>
+            <th>Spotify URI:</th>
+            <td>
+              <a :href="profile.external_urls.spotify" target="_blank" rel="noopener">
+                {{ profile.external_urls.spotify }}
+              </a>
+            </td>
+          </tr>
+          <tr>
+            <th>Link:</th>
+            <td>
+              <a :href="profile.href" target="_blank" rel="noopener">
+                {{ profile.href }}
+              </a>
+            </td>
+          </tr>
+          <tr v-if="profile.images.length">
+            <th>Profile Image URL:</th>
+            <td>
+              <a :href="profile.images[0].url" target="_blank" rel="noopener">
+                {{ profile.images[0].url }}
+              </a>
+            </td>
+          </tr>
+          <tr>
+            <th>Country:</th>
+            <td>{{ profile.country }}</td>
+          </tr>
+          </tbody>
+        </table>
       </div>
     </div>
-
 
     <!-- OAuth info -->
     <div id="oauth" v-if="oAuthTokenData">
@@ -66,21 +89,48 @@ defineProps({
   max-width: 100%; /* don’t grow beyond parent */
 }
 
-.profile-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.profile-list li {
+.profile-wrapper {
   display: flex;
-  gap: 0.5rem;
-  margin-bottom: 0.3rem;
+  gap: 1.5rem;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
-.profile-list .label {
-  width: 150px; /* fixed width so values align */
-  font-weight: bold;
+.profile-image img {
+  border-radius: 8px;
+  max-width: 150px;
+  height: auto;
+  display: block;
+}
+
+/* Table styles */
+.profile-table {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 600px;
+  text-align: left;
+  font-size: 1rem;
+  color: #ccc;
+}
+
+.profile-table th,
+.profile-table td {
+  padding: 0.5rem 1rem;
+  border: 1px solid #444;
+  vertical-align: top;
+}
+
+.profile-table th {
+  background-color: #1a1a1a;
+  font-weight: 600;
+  width: 180px;
+}
+
+.profile-table td a {
+  color: #66ccff;
+  word-break: break-word;
+  text-decoration: underline;
 }
 
 .token-list {
@@ -94,7 +144,15 @@ defineProps({
   align-items: flex-start;
   gap: 0.5rem;
   margin-bottom: 0.3rem;
-  min-width: 0; /* 🔑 allows flex items to shrink inside container */
+  min-width: 0; /* allows flex items to shrink inside container */
+}
+
+.token-list .label {
+  width: 150px;  /* fixed width so values align */
+  font-weight: bold;
+  white-space: nowrap; /* prevent label from breaking */
+  vertical-align: top;
+  color: #ccc;
 }
 
 .token-list .token-value {
@@ -112,12 +170,31 @@ defineProps({
   box-sizing: border-box;
 }
 
+/* Light mode overrides */
+@media (prefers-color-scheme: light) {
+  .profile-table {
+    color: #2d3748;
+    border-color: #cbd5e0;
+  }
+  .profile-table th {
+    background-color: #e2e8f0;
+  }
+  .profile-table td a {
+    color: #3182ce;
+  }
 
-.token-list .label {
-  width: 150px;  /* fixed width so values align */
-  font-weight: bold;
-  white-space: nowrap; /* prevent label from breaking */
-  vertical-align: top;
+  .token-list .label {
+    color: #4a5568; /* gray-600 */
+  }
+
+  .token-list li {
+    color: #2d3748; /* dark gray */
+  }
+
+  .token-list .token-value {
+    background: #f0f4f8;  /* very light blue */
+    color: #2b6cb0;       /* blue-700 */
+  }
 }
 
 </style>
