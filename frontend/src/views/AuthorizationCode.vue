@@ -27,7 +27,7 @@
         Request user profile data from backend
       </button>
 
-      <button class="btn btn-default" @click="refreshAccessToken">
+      <button class="btn btn-default" @click="refreshTokens">
         Obtain new token using the refresh token
       </button>
     </div>
@@ -44,7 +44,7 @@ import SpotifyProfile from "../components/SpotifyProfile.vue";
 let profileData = ref(null);
 let oAuthTokenData = ref(null);
 
-setTokenData();
+setTokenDataFromCookies();
 
 function setProfileData() {
   const requestURL = BACKEND_BASE_URL + '/spotify/profile-data';
@@ -58,7 +58,7 @@ function setProfileData() {
   })
 }
 
-function setTokenData() {
+function setTokenDataFromCookies() {
   try {
     let cookies = {};
     let cookieName = "";
@@ -96,6 +96,18 @@ function requestUserDataViaBackend() {
         })
   });
 }
+
+
+function refreshTokens() {
+  const requestUrl = BACKEND_BASE_URL + '/auth-code/refresh-tokens';
+  axiosWithLogging.get(requestUrl, {
+    withCredentials: true
+  }).then((response) => {
+    // request updates cookie values
+    setTokenDataFromCookies();
+  });
+}
+
 </script>
 <style>
 .page-container {
