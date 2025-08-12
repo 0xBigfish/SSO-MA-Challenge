@@ -23,8 +23,8 @@
     <SpotifyProfile :profile="profileData" :oAuthTokenData="oAuthTokenData"/>
 
     <div class="button-wrapper" v-if="oAuthTokenData">
-      <button class="btn btn-primary" @click="fetchProfile">
-        Request data from frontend
+      <button class="btn btn-primary" @click="setProfileData">
+        Request user profile data from backend
       </button>
 
       <button class="btn btn-default" @click="refreshAccessToken">
@@ -99,10 +99,11 @@ function requestUserDataViaBackend() {
 </script>
 <style>
 .page-container {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center; /* center horizontally */
+  justify-content: flex-start; /* top align */
   gap: 1.5rem;
   padding: 0 1.5rem;
   box-sizing: border-box;
@@ -114,7 +115,6 @@ function requestUserDataViaBackend() {
 .page-container h1 {
   width: 100%;
   text-align: center;
-  font-size: 2rem;
   margin-bottom: 0.5rem;
 }
 

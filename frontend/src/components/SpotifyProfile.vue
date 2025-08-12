@@ -2,7 +2,7 @@
   <div class="container">
     <!-- Spotify user profile info -->
     <div id="user-profile" v-if="profile">
-      <h1>Spotify: Logged in as {{ profile.display_name }}</h1>
+      <h2>Spotify: Logged in as {{ profile.display_name }}</h2>
       <div class="media">
         <div class="pull-left" v-if="profile.images && profile.images.length">
           <img class="media-object" width="150" :src="profile.images[0].url"/>
