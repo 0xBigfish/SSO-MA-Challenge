@@ -10,7 +10,7 @@ const provider = providers.spotify;
 
 // cookie options for this endpoint
 const cookieOptions = {
-    maxAge: 1000 * 60 * 15, // expires after 15 minutes
+    maxAge: 1000 * 3600, // expires after 1 hour (same as spotify)
     secure: false, // localhost talks on http
     sameSite: 'strict', // frontend and backend on the same port
     httpOnly: false,
