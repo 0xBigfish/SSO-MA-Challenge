@@ -35,7 +35,7 @@ axiosWithLogging.interceptors.request.use(async (config) => {
         return config;
     }
 
-    console.log("Logging request to " + requestURL + " ...");
+    console.log("[axiosLogging] Logging request to " + requestURL + " ...");
     // Send request log to backend logging endpoint
     fetch(LOGGING_ENDPOINT_URL, {
         method: 'POST',
@@ -51,8 +51,10 @@ axiosWithLogging.interceptors.request.use(async (config) => {
             body: config.data || null,
             loggedBy: 'Frontend central logging (axios outgoing request)'
         })
-    }).catch(console.error);
-    console.log(".. done logging request");
+    }).catch((error) => {
+        console.error("[axiosLogging] ", error);
+    });
+    console.log("[axiosLogging] ... done logging request");
 
     return config;
 });
@@ -79,7 +81,9 @@ axiosWithLogging.interceptors.response.use(async (response) => {
             body: response.data || null,
             loggedBy: 'Frontend central logging (axios incoming response)'
         })
-    }).catch(console.error);
+    }).catch((error) => {
+        console.error("[axiosLogging] ", error);
+    });
 
     return response;
 });

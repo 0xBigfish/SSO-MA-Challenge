@@ -49,7 +49,6 @@ setTokenDataFromCookies();
 function setProfileData() {
   const requestURL = BACKEND_BASE_URL + '/spotify/profile-data';
 
-  console.log("setProfileData");
   // needs cookies, otherwise will return 401
   axiosWithLogging.get(requestURL, {
     withCredentials: true
@@ -65,20 +64,16 @@ function setTokenDataFromCookies() {
     let cookieValue = "";
     if (document.cookie.split(";").length > 1) {
       document.cookie.split(";").forEach(unparsedCookie => {
-        console.log("unparsed cookie: " + unparsedCookie)
         cookieName = unparsedCookie.split("=")[0].trim();
         cookieValue = unparsedCookie.split("=")[1].trim();
 
         cookies[cookieName] = cookieValue;
-        console.log(cookieName + ": " + cookieValue)
       });
 
-      console.log("cookies: " + JSON.stringify(cookies));
       oAuthTokenData.value = cookies;
-      console.log("oAuthTokenData: " + oAuthTokenData.value.refresh_token)
     }
   } catch (error) {
-    console.error(error);
+    console.error("[AuthorizationCode.vue]", error);
   }
 }
 

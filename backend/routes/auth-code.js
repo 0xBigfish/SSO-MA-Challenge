@@ -3,7 +3,6 @@ const querystring = require('querystring');
 const axios = require('axios');
 const providers = require('../config/providers');
 const state_utils = require('../utils/state');
-const logger = require('../utils/trafficLogger');
 const router = express.Router();
 const provider = providers.spotify;
 
