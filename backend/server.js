@@ -3,6 +3,7 @@ require('dotenv').config();
 
 const express = require('express');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const routes = require('./routes');
 
 // import logging and set global logging for axios requests and responses
@@ -16,6 +17,8 @@ app.use(cors({
 }));
 app.use(express.json());
 app.options('/{*any}', cors());  // enable preflight for all routes
+
+app.use(cookieParser());
 
 // console logging
 app.use((req, res, next) => {

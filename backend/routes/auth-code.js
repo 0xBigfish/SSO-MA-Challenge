@@ -43,7 +43,26 @@ router.get('/callback', async (req, res, next) => {
                 client_secret: provider.client_secret
             })
         );
-        res.json(tokenResponse.data);
+
+        const access_token = tokenResponse.data.access_token || '';
+        const refresh_token = tokenResponse.data.refresh_token || '';
+
+
+        const requestBaseURL = req.get('origin') || req.get('referrer');
+
+        // set cookies
+        const cookieOptions = {
+            maxAge: 1000 * 60 * 15, // expires after 15 minutes
+            secure: false, // localhost talks on http
+            sameSite: 'none', // front-end to backend is CORS request
+            httpOnly: false,
+            path: "/" // set cookie for the whole domain
+
+        };
+        res.cookie('access_token', access_token, cookieOptions);
+        res.cookie('refresh_token', refresh_token, cookieOptions);
+
+        res.redirect(requestBaseURL);
     } catch (err) {
         next(err);
     }
