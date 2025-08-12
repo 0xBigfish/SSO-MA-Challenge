@@ -18,7 +18,19 @@
         <small>Will log all traffic except the <code>302</code> from front-end to IdP</small>
       </button>
     </div>
-    <SpotifyProfile :profile="profileData"/>
+
+    <!-- Include the Spotify View showing token data and user profile information -->
+    <SpotifyProfile :profile="profileData" :oAuthTokenData="oAuthTokenData"/>
+
+    <div class="button-wrapper" v-if="oAuthTokenData">
+      <button class="btn btn-primary" @click="fetchProfile">
+        Request data from frontend
+      </button>
+
+      <button class="btn btn-default" @click="refreshAccessToken">
+        Obtain new token using the refresh token
+      </button>
+    </div>
   </div>
 </template>
 
@@ -29,8 +41,10 @@ import axiosWithLogging from '../utils/axiosWithLogging.js';
 import SpotifyProfile from "../components/SpotifyProfile.vue";
 
 // track the profile Data received from the backend in order to inject it into the Spotify component
-let profileData = ref(null)
-setProfileData();
+let profileData = ref(null);
+let oAuthTokenData = ref(null);
+
+setTokenData();
 
 function setProfileData() {
   const requestURL = BACKEND_BASE_URL + '/spotify/profile-data';
@@ -44,22 +58,43 @@ function setProfileData() {
   })
 }
 
+function setTokenData() {
+  try {
+    let cookies = {};
+    let cookieName = "";
+    let cookieValue = "";
+    if (document.cookie.split(";").length > 1) {
+      document.cookie.split(";").forEach(unparsedCookie => {
+        console.log("unparsed cookie: " + unparsedCookie)
+        cookieName = unparsedCookie.split("=")[0].trim();
+        cookieValue = unparsedCookie.split("=")[1].trim();
+
+        cookies[cookieName] = cookieValue;
+        console.log(cookieName + ": " + cookieValue)
+      });
+
+      console.log("cookies: " + JSON.stringify(cookies));
+      oAuthTokenData.value = cookies;
+      console.log("oAuthTokenData: " + oAuthTokenData.value.refresh_token)
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 function requestUserDataViaBackend() {
   const requestUrl = BACKEND_BASE_URL + '/auth-code';
   axiosWithLogging.get(requestUrl, {
-        headers: {
-          'X-Info': '####### The redirect to this request will most likely be blocked by CORS. If so, a second request will be send. #######'
-        }
-      }
-  )
-      // when CORS blocks the request abort logging and just redirect
-      .catch(() => {
-        axiosWithLogging.get(BACKEND_BASE_URL + '/PREVIOUS-REQUEST-BLOCKED-BY-CORS', {})
-            .catch(() => {
-              document.location = requestUrl
-            })
-      });
+    headers: {
+      'X-Info': '####### The redirect to this request will most likely be blocked by CORS. If so, a second request will be send. #######'
+    }
+  }).catch(() => {
+    // when CORS blocks the request abort logging and just redirect
+    axiosWithLogging.get(BACKEND_BASE_URL + '/PREVIOUS-REQUEST-BLOCKED-BY-CORS', {})
+        .catch(() => {
+          document.location = requestUrl
+        })
+  });
 }
 </script>
 <style>
