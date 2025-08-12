@@ -20,6 +20,8 @@ app.options('/{*any}', cors());  // enable preflight for all routes
 
 app.use(cookieParser());
 
+app.use(express.static('../frontend/dist'));
+
 // console logging
 app.use((req, res, next) => {
     console.log(`Incoming request: ${req.method} ${req.url}`);

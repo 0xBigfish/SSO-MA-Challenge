@@ -54,10 +54,9 @@ router.get('/callback', async (req, res, next) => {
         const cookieOptions = {
             maxAge: 1000 * 60 * 15, // expires after 15 minutes
             secure: false, // localhost talks on http
-            sameSite: 'none', // front-end to backend is CORS request
+            sameSite: 'strict', // frontend and backend on the same port
             httpOnly: false,
             path: "/" // set cookie for the whole domain
-
         };
         res.cookie('access_token', access_token, cookieOptions);
         res.cookie('refresh_token', refresh_token, cookieOptions);
