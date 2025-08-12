@@ -66,6 +66,8 @@
     display: flex;
     align-items: flex-start;
     margin-bottom: 1rem;
+    max-width: 100%;
+    overflow-wrap: anywhere;  /* prevent overflow from long text */
   }
 
   .arrow {
