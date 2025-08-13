@@ -35,9 +35,7 @@ touch backend/.env
 echo "SPOTIFY_CLIENT_ID=$CLIENT_ID" >> backend/.env 
 echo "SPOTIFY_CLIENT_SECRET=$CLIENT_SECRET" >> backend/.env 
 #
-cd frontend && npm install
-cd ../backend && npm install
-cd .. 
+npm install
 #
 echo "-----------------------------"
 echo "Please check if the set values are correct:"
