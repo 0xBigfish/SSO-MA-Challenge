@@ -57,7 +57,7 @@ router.get('/callback', async (req, res, next) => {
         const access_token = tokenResponse.data.access_token || '';
         const refresh_token = tokenResponse.data.refresh_token || '';
 
-        const requestBaseURL = req.get('origin') || req.get('referrer');
+        const requestBaseURL = '/';
 
         res.cookie('access_token', access_token, cookieOptions);
         res.cookie('refresh_token', refresh_token, cookieOptions);
