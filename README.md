@@ -48,6 +48,6 @@ echo ""
 ## How to run
 1. Start the server 
 ```
- cd ./frontend/ && npm run build && cd ../backend/ && npm start
+ npm run dev
 ```
 2. Open your browser and visit http://127.0.0.1:3000/
