@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>OAuth2 Traffic Log</h1>
+    <small>A dotted line is shown when request are > 1 second apart</small>
     <div class="button-wrapper">
       <button @click="homepage">Back to Homepage</button>
       <button @click="clearLogs">Clear Logs</button>
@@ -8,15 +9,22 @@
     <div
         v-for="(log, i) in logs"
         :key="i"
-        class="log-entry"
     >
-      <div class="arrow">➡️</div>
-      <div class="log-details">
-        <div class="log-line">
-          <strong>{{ log.source }}</strong> → <strong>{{ log.target }}</strong>&nbsp;
-          <small>{{ log.timestamp }}</small>
+      <!-- Separator if gap > 1s -->
+      <div
+          v-if="i > 0 && timeDiff(logs[i - 1].timestamp, log.timestamp) > 1000"
+          class="separator"
+      ></div>
+
+      <div class="log-entry">
+        <div class="arrow">➡️</div>
+        <div class="log-details">
+          <div class="log-line">
+            <strong>{{ log.source }}</strong> → <strong>{{ log.target }}</strong>&nbsp;
+            <small>{{ log.timestamp }}</small>
+          </div>
+          <pre :class="getSourceClass(log.source)">{{ formatData(log.data) }}</pre>
         </div>
-        <pre :class="getSourceClass(log.source)">{{ formatData(log.data) }}</pre>
       </div>
     </div>
   </div>
@@ -28,6 +36,13 @@
   import {BACKEND_BASE_URL} from "../config.js";
 
   const logs = ref([]);
+
+  function timeDiff(ts1, ts2) {
+    const t1 = new Date(ts1).getTime();
+    const t2 = new Date(ts2).getTime();
+    return Math.abs(t2 - t1); // milliseconds
+  }
+
 
   function homepage() {
     router.push({path: '/'})
@@ -115,5 +130,10 @@
   pre.unknown {
     background: #2f2f2f;
     color: #ccc;
+  }
+
+  .separator {
+    border-top: 2px dashed #888;
+    margin: 1rem 0;
   }
 </style>
