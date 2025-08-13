@@ -1,0 +1,118 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;      /* stack children vertically */
+  align-items: center;         /* center horizontally */
+  justify-content: flex-start; /* align items to top vertically */
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+.card {
+  padding: 2em;
+}
+
+#app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+.button-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    width: 100%; /* allow buttons to be centered horizontally */
+}
+
+.button-wrapper button {
+    flex-shrink: 0; /* prevent buttons from shrinking */
+    padding: 0.6rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    white-space: normal; /* allow wrapping inside buttons */
+    max-width: 45%; /* prevent buttons from getting too wide */
+    text-align: center;
+}
+
+.button-wrapper button small {
+    font-size: 0.75rem;
+    display: block;
+    margin-top: 0.3rem;
+}
+code {
+    background-color: #ddd8d8;       /* darker gray, fits dark bg */
+    color: #0e0e0e;                 /* GitHub pinkish-red */
+    font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+    font-size: 85%;
+    padding: 0.0em 0.2em;
+    border-radius: 6px;
+    white-space: nowrap;
+    user-select: text;
+    border: 1px solid #aca8a8;       /* subtle dark border */
+}
