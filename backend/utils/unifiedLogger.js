@@ -5,6 +5,15 @@ const {logTraffic} = require("./trafficLogger");
 function unifiedLogger(req, res, next) {
     const startTime = Date.now();
 
+    // Helper: parse JSON safely
+    function safeJsonParse(str) {
+        try {
+            return JSON.parse(str);
+        } catch {
+            return str; // return as-is if it's not JSON
+        }
+    }
+
     const logResponse = (body) => {
         logTraffic({
             source: 'Backend',
@@ -34,7 +43,6 @@ function unifiedLogger(req, res, next) {
                 method: req.method,
                 url: req.originalUrl,
                 headers: req.headers,
-                cookies: req.cookies,
                 query: req.query,
                 body: req.body,
                 loggedBy: 'Centralized logging (express incoming requests)'
@@ -46,17 +54,25 @@ function unifiedLogger(req, res, next) {
         // Keep reference to original res.send
         const originalSend = res.send.bind(res);
         res.send = function (body) {
-            const ret = originalSend(body);
-            logResponse(body);
-            return ret;
+            if (!res._loggedOnce) {
+                res._loggedOnce = true; // mark as logged
+                logResponse(
+                    typeof body === 'string' ? safeJsonParse(body) : body
+                );
+            }
+            return originalSend(body);
         };
+
+
 
         // Keep reference to original res.send
         const originalRedirect = res.redirect.bind(res);
         res.redirect = function (...args) {
-            const ret = originalRedirect(...args);
-            logResponse({ redirectArgs: args });
-            return ret;
+            if (!res._loggedOnce) {
+                res._loggedOnce = true;
+                logResponse({ redirectArgs: args });
+            }
+            return originalRedirect(...args);
         };
 
         next();
