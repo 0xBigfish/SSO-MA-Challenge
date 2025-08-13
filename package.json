@@ -1,0 +1,24 @@
+{
+  "name": "sso-ma-challenge",
+  "version": "1.0.0",
+  "description": "This app offers the OAuth2 authorization-code flow for Spotify and logs all send and received messages between front-end, backend  and the Identity Provider (IdP).",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "build": "npm run build --workspace=frontend",
+    "start": "npm run start --workspace=backend",
+    "dev": "npm run build && npm run start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0xBigfish/SSO-MA-Challenge.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/0xBigfish/SSO-MA-Challenge/issues"
+  },
+  "homepage": "https://github.com/0xBigfish/SSO-MA-Challenge#readme"
+}
